@@ -2,6 +2,7 @@ package org.vurtatoo.task6;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,7 +22,18 @@ public class Main {
 			}
 			strings.add(string);
 		}
-		Collections.sort(strings);
+		Collections.sort(strings, new Comparator<String>() {
+
+			@Override
+			public int compare(String o1, String o2) {
+				if (o1.length() > o2.length()) {
+					return 1;
+				} else {
+					return -1; 
+				}
+				
+			}
+		});
 		System.out.println(strings);
 
 	}
