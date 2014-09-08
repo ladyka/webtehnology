@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class Main {
 
+	//4. Создать список из элементов каталога и его подкаталогов.
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		String folder = scanner.nextLine();
