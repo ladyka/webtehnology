@@ -2,6 +2,7 @@ package org.vurtatoo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +38,7 @@ public class OrderInfo extends HttpServlet {
 			pw.append("hello");
 			orderId = Integer.parseInt(request.getParameter("id"));
 			if (orderId !=null) {
-				
+				ResultSet resultSet = MysqlManager.getRezult(SQLREQUESTS.getOrderInfoSQL(orderId));
 			}
 		} catch (Exception ex) {
 			
