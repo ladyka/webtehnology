@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 /**
@@ -18,12 +20,23 @@ public class Task5 extends MyServlet {
 
 	@Override
 	protected void doGet(PrintWriter printWriter, Statement statement) {
-		int shipmentId = getValueInt("shipmentid");
 		try {
-			ResultSet resultSet = statement.executeQuery(SQLREQUESTS.getOrdersNumberSQL(shipmentId));
+			ResultSet resultSet = statement.executeQuery(SQLREQUESTS.getShipmentsOrderToday());
+			List<Integer> shipments = new ArrayList<Integer>();
 			while (resultSet.next()) {
+				shipments.add(resultSet.getInt(1));
 				printWriter.append(resultSet.getString(1) + "\n");
 			}
+			ResultSet resultSetId = statement.executeQuery(SQLREQUESTS.createNewOrder("commnet"));
+			while (resultSetId.next()) {
+				int orderId = resultSetId.getInt(1);
+				for (Integer shipmentId : shipments) {
+					ResultSet resultSetInstert = statement.executeQuery(SQLREQUESTS.insertOrderHasShipment(orderId,shipmentId));
+					resultSetInstert.close();
+				}
+					
+			}
+			
 		} catch (SQLException e) {
 			printWriter.write(e.getSQLState());
 			printWriter.write(e.getLocalizedMessage());

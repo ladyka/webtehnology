@@ -23,7 +23,9 @@ public class Task6 extends MyServlet {
 		try {
 			ResultSet resultSet = statement.executeQuery(SQLREQUESTS.getOrdersSQL(shipmentId, count));
 			while (resultSet.next()) {
+				int orderId = Integer.valueOf(resultSet.getString(1));
 				printWriter.append(resultSet.getString(1) + "\n");
+				statement.executeQuery(SQLREQUESTS.delOrdersSQL(orderId));
 			}
 		} catch (SQLException e) {
 			printWriter.write(e.getSQLState());

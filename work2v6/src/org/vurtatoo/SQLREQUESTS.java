@@ -119,4 +119,16 @@ public class SQLREQUESTS {
 		return  "SELECT SHIPMENTORDER_id FROM work2v6.shipmentorder_has_shipment where SHIPMENT_id =  " + shipmentId +  " and count =  " + count;
 	}
 
+	public static String createNewOrder(String comment) {
+		return "START TRANSACTION; "
+				+  "INSERT INTO shipmentorder (`" +comment+"`) VALUES (\"\"); "
+				+  "Select Max(Id) from shipmentorder; "
+				+  "COMMIT; ";
+		
+	}
+
+	public static String insertOrderHasShipment(int orderId, Integer shipmentId) {
+		return "INSERT INTO shipmentorder_has_shipment (SHIPMENTORDER_id, SHIPMENT_id,count)VALUES("+orderId+","+shipmentId+",1)";
+	}
+
 }
