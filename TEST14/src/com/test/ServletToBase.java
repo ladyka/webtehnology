@@ -1,13 +1,18 @@
 package com.test;
 
-import java.io.*;
-import java.sql.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import javax.servlet.*;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-
-import com.mysql.jdbc.Driver;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(
 		asyncSupported = true, 
@@ -46,16 +51,16 @@ public class ServletToBase extends HttpServlet {
 
 				//Class.forName("org.gjt.mm.mysql.Driver");
 				myClass = Class.forName(driverClassName);
-				// для MSAccess
+				// пїЅпїЅпїЅ MSAccess
 				/* return "sun.jdbc.odbc.JdbcOdbcDriver" */
-				// для PostgreeSQL
+				// пїЅпїЅпїЅ PostgreeSQL
 				/* return " org.postgreesql.Driver " */
 				Connection cn = null;
 				try {// 3
 					cn = DriverManager.getConnection("jdbc:mysql://localhost/db2", "root", "");
-					// для MSAccess
+					// пїЅпїЅпїЅ MSAccess
 					/* return "jdbc:odbc:db2"; */
-					// для PostgreeSQL
+					// пїЅпїЅпїЅ PostgreeSQL
 					/* return "jdbc:postgreesql://localhost/db2"; */
 
 					Statement st = null;
@@ -68,60 +73,60 @@ public class ServletToBase extends HttpServlet {
 							while (rs.next()) {
 								out.print("<br>Name:-> " + rs.getString(1) + " Phone:-> " + rs.getInt(2));
 							}
-						} finally {// для 5-го блока try
+						} finally {// пїЅпїЅпїЅ 5-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ try
 							/*
-							 * закрыть ResultSet, если он был открыт и ошибка
-							 * произошла во время чтения из него данных
+							 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ResultSet, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+							 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 							 */
-							// проверка успел ли создаться ResultSet
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ResultSet
 							if (rs != null)
 								rs.close();
 							else
-								out.print("ошибка во время чтения данных из БД");
+								out.print("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ");
 						}
-					} finally {// для 4-го блока try
+					} finally {// пїЅпїЅпїЅ 4-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ try
 						/*
-						 * закрыть Statement, если он был открыт и ошибка
-						 * произошла во время создания ResultSet
+						 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Statement, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+						 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ResultSet
 						 */
-						// проверка успел ли создаться Statement
+						// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Statement
 						if (st != null)
 							st.close();
 						else
-							out.print("Statement не создан");
+							out.print("Statement пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 					}
-				} finally {// для 3-го блока try
+				} finally {// пїЅпїЅпїЅ 3-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ try
 					/*
-					 * закрыть Connection, если он был открыт и ошибка произошла
-					 * во время создания ResultSet или создания и использования
+					 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Connection, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+					 * пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ResultSet пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 					 * Statement
 					 */
-					// проверка - успел ли создаться Connection
+					// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Connection
 					if (cn != null)
 						cn.close();
 					else
-						out.print("Connection не создан");
+						out.print("Connection пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 				}
-			} catch (ClassNotFoundException e) {// для 2-го блока try
-				out.print("ошибка во время загрузки драйвера БД : " + driverClassName);
+			} catch (ClassNotFoundException e) {// пїЅпїЅпїЅ 2-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ try
+				out.print("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ : " + driverClassName);
 			}
 		}
-		/* вывод сообщения о всех SQLException и IOException в блоках finally, */
-		/* поэтому следующие блоки catch оставлены пустыми */
+		/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ SQLException пїЅ IOException пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ finally, */
+		/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ catch пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 		catch (SQLException e) {
-		}// для 1-го блока try
+		}// пїЅпїЅпїЅ 1-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ try
 		catch (IOException e) {
-		}// для 1-го блока try
-		finally {// для 1-го блока try
+		}// пїЅпїЅпїЅ 1-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ try
+		finally {// пїЅпїЅпїЅ 1-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ try
 			/*
-			 * закрыть PrintWriter, если он был инициализирован и ошибка
-			 * произошла во время работы с БД
+			 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ PrintWriter, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+			 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
 			 */
-			// проверка, успел ли инициализироваться PrintWriter
+			// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ PrintWriter
 			if (out != null)
 				out.close();
 			else
-				System.err.println("PrintWriter не проинициализирован.");
+				System.err.println("PrintWriter пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
 		}
 	}
 }
