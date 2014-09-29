@@ -1,7 +1,6 @@
 package org.vurtatoo;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,32 +14,20 @@ public abstract class MyServlet extends HttpServlet {
 	private static final long serialVersionUID = 16L;
 	
 	String requestSQL;
-	private HttpServletRequest request;
-	//private HttpServletResponse response;
 	
 	public MyServlet() {
 		super();
 	}
 	
 	protected final void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.request = request;
-		//this.response = response;
-		response.setContentType("text/html; charset=utf-8");
+		//response.setContentType("text/html; charset=utf-8");
 		MysqlManager mysqlManager = new MysqlManager();
-		PrintWriter printWriter = null;
 		try {
-			printWriter = response.getWriter();
 			Statement statement = mysqlManager.createStatement();
-			doGet(printWriter,statement);
+			doGet(request,response,statement);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			try {
-				if (printWriter != null) {
-					printWriter.close();
-				}
-			} catch (Exception e) {
-			}
 			try {
 				mysqlManager.close();
 			} catch (SQLException e) {
@@ -49,14 +36,14 @@ public abstract class MyServlet extends HttpServlet {
 		
 	}
 	
-	protected abstract void doGet(PrintWriter printWriter,Statement statement);
+	protected abstract void doGet(HttpServletRequest request, HttpServletResponse response,Statement statement);
 	
-	protected int getValueInt(String string) {
-		return Integer.valueOf(getValue(string));
+	protected int getValueInt(HttpServletRequest request,String string) {
+		return Integer.valueOf(getValue(request,string));
 	}
 
-	protected String getValue(String string) {
-		return request.getParameter(string);
+	protected String getValue(HttpServletRequest request,String string) {
+	    return request.getParameter(string);
 	}
 
 }

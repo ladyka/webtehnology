@@ -31,12 +31,12 @@ pageEncoding="UTF-8"%>
 	<li>цену</li>
 	</ul>
 <ul>
-	<li>Вывести полную информацию о заданном заказе.</li>
-	<li>Вывести номера заказов, сумма которых не превосходит заданную, и количество различных товаров равно заданному.</li>
-	<li>Вывести номера заказов, содержащих заданный товар.</li>
-	<li>Вывести номера заказов, не содержащих заданный товар и поступивших в течение текущего дня.</li>
-	<li>Сформировать новый заказ, состоящий из товаров, заказанных в текущий день.</li>
-	<li>Удалить все заказы, в которых присутствует заданное количество заданного товара.</li>
+	<li>Вывести полную информацию о заданном заказе.<a href="orders">Список всех заказов</a></li>
+	<li><form method="get" action="task2">Вывести номера заказов, сумма которых не превосходит заданную <input type="text" name="price" size="10">, и количество различных товаров равно заданному <input type="text"  name="shipments" size="10">.<input type="submit" value="Отправить"></form></li>
+	<li><form method="get" action="task3">Вывести номера заказов, содержащих заданный товар.<input type="text"  name="shipmentid" size="10"><input type="submit" value="Отправить"></form></li>
+	<li><form method="get" action="task4">Вывести номера заказов, не содержащих заданный товар и поступивших в течение текущего дня.<input type="text"  name="shipmentid" size="10"><input type="submit" value="Отправить"></form></li>
+	<li><form method="get" action="task5">Сформировать новый заказ, состоящий из товаров, заказанных в текущий день.<input type="submit" value="Отправить"></form></li>
+	<li><form method="get" action="task6">Удалить все заказы, в которых присутствует заданное количество<input type="text"  name="count" size="10"> заданного товара.<input type="text"  name="shipmentid" size="10"><input type="submit" value="Отправить"></form></li>
 </ul>
 </body>
 </html>

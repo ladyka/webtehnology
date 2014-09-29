@@ -16,14 +16,25 @@ public class SQLREQUESTS {
 	 * @return
 	 */
 	public static String getOrderInfoSQL(int order) {
-		return  "select  "
-				+  "shipment.NAME,  "
-				+  "shipment.description,  "
-				+  "shipment.price,  "
-				+  "shipmentorder_has_shipment.count  "
-				+  "from shipmentorder_has_shipment  "
-				+  "join shipment on shipment.id = shipmentorder_has_shipment.SHIPMENT_id  "
-				+  "where SHIPMENTORDER_id =  " + order;
+//		return  "select  "
+//				+  "shipment.NAME,  "
+//				+  "shipment.description,  "
+//				+  "shipment.price,  "
+//				+  "shipmentorder_has_shipment.count  "
+//				+  "from shipmentorder_has_shipment  "
+//				+  "join shipment on shipment.id = shipmentorder_has_shipment.SHIPMENT_id  "
+//				+  "where SHIPMENTORDER_id =  " + order;
+	      return  "select  "
+          +  "shipmentorder.id, "
+          +  "shipmentorder.timestamp, "
+          +  "shipment.NAME,  "
+          +  "shipment.description,  "
+          +  "shipment.price,  "
+          +  "shipmentorder_has_shipment.count  "
+          +  "from shipmentorder_has_shipment  "
+          +  "join shipment on shipment.id = shipmentorder_has_shipment.SHIPMENT_id  "
+          +  "join shipmentorder on shipmentorder.id = SHIPMENTORDER_id "
+          +  "where SHIPMENTORDER_id =  " + order;
 	}
 
 	/**
@@ -100,35 +111,46 @@ public class SQLREQUESTS {
 	}
 	
 	// Удалить заказ c товарами в нем
-	public static String delOrdersSQL(int orderId) {
-		return  "START TRANSACTION; "
-				+  "SET @id_to_delete = 2; "
-				+  "DELETE FROM shipmentorder_has_shipment "
-				+  "    USING shipmentorder_has_shipment, shipmentorder "
-				+  "    WHERE `shipmentorder`.`id` = `shipmentorder_has_shipment`.`SHIPMENTORDER_id` "
-				+  "          AND shipmentorder.id = @id_to_delete; "
-				+  "DELETE FROM shipmentorder "
+	public static String delOrderSQL(int orderId) {
+		return  "DELETE FROM shipmentorder "
 				+  "    USING shipmentorder "
-				+  "    WHERE shipmentorder.id = @id_to_delete; "
-				+  "COMMIT ";
+				+  "    WHERE shipmentorder.id = " + orderId;
 	}
+	
+	public static String delShipmentinOrder(int orderId) {
+        return "DELETE FROM shipmentorder_has_shipment WHERE SHIPMENTORDER_id = " + orderId ;
+    }
+	
 	
 	// Получить все заказы, в которых присутствует заданное количество заданного
 	// товара.
 	public static String getOrdersSQL(int shipmentId, int count) {
-		return  "SELECT SHIPMENTORDER_id FROM work2v6.shipmentorder_has_shipment where SHIPMENT_id =  " + shipmentId +  " and count =  " + count;
+		return  "SELECT SHIPMENTORDER_id FROM shipmentorder_has_shipment where SHIPMENT_id =  " + shipmentId +  " and count =  " + count;
 	}
 
 	public static String createNewOrder(String comment) {
-		return "START TRANSACTION; "
-				+  "INSERT INTO shipmentorder (`" +comment+"`) VALUES (\"\"); "
-				+  "Select Max(Id) from shipmentorder; "
-				+  "COMMIT; ";
-		
+		return "INSERT INTO shipmentorder (`comment`) VALUES (\"" +comment+"\") ";
 	}
 
+	public static String getMaxOrderId() {
+        return "Select Max(Id) from shipmentorder ";
+    }
 	public static String insertOrderHasShipment(int orderId, Integer shipmentId) {
 		return "INSERT INTO shipmentorder_has_shipment (SHIPMENTORDER_id, SHIPMENT_id,count)VALUES("+orderId+","+shipmentId+",1)";
+	}
+
+	public static String getOrdersSQL() {
+		return  "select  "
+				+  "shipmentorder.id, "
+				+  "shipmentorder.timestamp, "
+				+  "shipment.NAME,  "
+				+  "shipment.description,  "
+				+  "shipment.price,  "
+				+  "shipmentorder_has_shipment.count  "
+				+  "from shipmentorder_has_shipment  "
+				+  "join shipment on shipment.id = shipmentorder_has_shipment.SHIPMENT_id  "
+				+  "join shipmentorder on shipmentorder.id = SHIPMENTORDER_id "
+				+  "order by SHIPMENTORDER_id";
 	}
 
 }
